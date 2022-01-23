@@ -1,6 +1,6 @@
 ﻿namespace Autovac.Console.InputModel.Validation;
 
-internal class ValidationException : ArgumentException
+internal sealed class ValidationException : ArgumentException
 {
   public ValidationException(string valueName, string message)
   : base(message: message)

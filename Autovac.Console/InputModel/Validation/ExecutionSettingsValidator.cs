@@ -2,7 +2,7 @@
 
 namespace Autovac.Console.InputModel.Validation;
 
-internal class ExecutionSettingsValidator
+internal sealed class ExecutionSettingsValidator
 {
   readonly GroundSectionsValidator groundSections;
   readonly InstructionsValidator instructions;

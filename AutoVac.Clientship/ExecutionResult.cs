@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace AutoVac.Clientship;
 
-public record class ExecutionResult
+public sealed record class ExecutionResult
 (
   ReadOnlyCollection<Position> Visited,
   ReadOnlyCollection<Position> Cleaned,

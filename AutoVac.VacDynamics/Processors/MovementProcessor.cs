@@ -7,7 +7,7 @@ using DirectionMasking = AutoVac.VacDynamics.ControlFlowManagement.ConjunctionMa
 
 namespace AutoVac.VacDynamics.Processors;
 
-internal class MovementProcessor
+internal sealed class MovementProcessor
 {
   private readonly ZeroIndexStepModuloComplement directionComplement;
   private readonly GroundPlan groundPlan;

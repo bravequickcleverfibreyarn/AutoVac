@@ -9,7 +9,7 @@ using static Autovac.Console.InputModel.Serialization.RawExecutionSettings;
 
 namespace Autovac.Console.InputModel.Conversion;
 
-internal class SettingsConvertor
+internal sealed class SettingsConvertor
 {
   private readonly OrientationMapping orientationMapping;
   private readonly InstructionMapping instructionMapping;

@@ -5,7 +5,7 @@ using static AutoVac.Clientship.Spatial.CardinalDirection;
 
 namespace Autovac.Console.InputModel.Namings;
 
-internal class OrientationMapping
+internal sealed class OrientationMapping
 {
   private readonly IReadOnlyDictionary<string, CardinalDirection> mapping = new Dictionary<string, CardinalDirection>()
   {

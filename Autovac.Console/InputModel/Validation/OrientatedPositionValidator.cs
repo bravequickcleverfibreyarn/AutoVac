@@ -4,7 +4,7 @@ using static Autovac.Console.InputModel.Serialization.RawExecutionSettings;
 
 namespace Autovac.Console.InputModel.Validation;
 
-internal class OrientatedPositionValidator
+internal sealed class OrientatedPositionValidator
 {
   private readonly OrientationMapping orientationMapping = new ();
 

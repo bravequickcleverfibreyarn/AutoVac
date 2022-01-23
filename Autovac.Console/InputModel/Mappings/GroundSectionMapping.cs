@@ -4,7 +4,7 @@ using static AutoVac.Clientship.Spatial.GroundSection;
 
 namespace Autovac.Console.InputModel.Namings;
 
-internal class GroundSectionMapping
+internal sealed class GroundSectionMapping
 {
   private const string @null = "null";
 

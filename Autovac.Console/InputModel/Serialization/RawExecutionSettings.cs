@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Autovac.Console.InputModel.Serialization;
 
-internal record class RawExecutionSettings
+internal sealed record class RawExecutionSettings
 {
   /// <summary>
   /// Room map represented in rows array.
@@ -37,7 +37,7 @@ internal record class RawExecutionSettings
   /// <summary>
   /// Encapsulates start point data.
   /// </summary>
-  public record class StartPoint
+  public sealed record class StartPoint
   {
     // starting point
     public readonly ushort? X;

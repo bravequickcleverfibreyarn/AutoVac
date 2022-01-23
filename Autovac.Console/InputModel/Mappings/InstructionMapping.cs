@@ -4,7 +4,7 @@ using static AutoVac.Clientship.InstructionSet.InstructionKind;
 
 namespace Autovac.Console.InputModel.Namings;
 
-internal class InstructionMapping
+internal sealed class InstructionMapping
 {
   private readonly IReadOnlyDictionary<string, InstructionKind> mapping = new Dictionary<string, InstructionKind>()
   {

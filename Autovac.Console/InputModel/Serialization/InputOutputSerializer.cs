@@ -47,7 +47,7 @@ internal static class InputOutputSerializer
     }
   }
 
-  private class FacingConverter : JsonConverter<CardinalDirection>
+  private sealed class FacingConverter : JsonConverter<CardinalDirection>
   {
     private readonly OrientationMapping orientationMapping;
     private readonly Type isConverting;

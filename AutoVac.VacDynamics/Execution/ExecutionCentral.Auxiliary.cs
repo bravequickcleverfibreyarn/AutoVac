@@ -3,7 +3,7 @@ using AutoVac.Clientship.Spatial;
 
 namespace AutoVac.VacDynamics.Execution;
 
-public partial class ExecutionCentral
+public sealed partial class ExecutionCentral
 {
 
   private GroundSection TryMoveToNextSection(CardinalDirection orientation, InstructionKind instruction, ref Position position)

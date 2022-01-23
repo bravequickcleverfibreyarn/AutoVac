@@ -4,7 +4,7 @@ using AutoVac.Clientship.Spatial;
 
 namespace Autovac.Console.InputModel.Conversion;
 
-internal record class FineExecutionSettings
+internal sealed record class FineExecutionSettings
 {
   public readonly GroundSection[][] GroundPlan;
   public readonly OrientedPosition Position;

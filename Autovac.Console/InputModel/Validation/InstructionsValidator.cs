@@ -2,7 +2,7 @@
 
 namespace Autovac.Console.InputModel.Validation;
 
-internal class InstructionsValidator
+internal sealed class InstructionsValidator
 {
   private readonly InstructionMapping instructionMapping = new();
 

@@ -3,7 +3,7 @@
 /// <remarks>
 /// Computes complements for zero-based indexes where item complements lies step size from each other.
 /// </remarks>
-internal class ZeroIndexStepModuloComplement
+internal sealed class ZeroIndexStepModuloComplement
 {
   private readonly int step;
   private readonly int modulo;

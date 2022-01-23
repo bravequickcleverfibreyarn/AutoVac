@@ -13,7 +13,7 @@ using System.Reflection;
 
 namespace AutoVac.VacDynamics.Execution;
 
-public partial class ExecutionCentral
+public sealed partial class ExecutionCentral
 {
 
   private readonly MovementProcessor movementProcessor;

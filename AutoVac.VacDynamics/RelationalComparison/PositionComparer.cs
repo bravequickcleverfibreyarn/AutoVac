@@ -2,7 +2,7 @@
 
 namespace AutoVac.VacDynamics.RelationalComparison;
 
-internal class PositionComparer : IComparer<Position>
+internal sealed class PositionComparer : IComparer<Position>
 {
   public int Compare(Position x, Position y) => x.CompareTo(y);
 }

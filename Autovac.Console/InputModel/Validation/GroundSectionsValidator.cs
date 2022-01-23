@@ -2,7 +2,7 @@
 
 namespace Autovac.Console.InputModel.Validation;
 
-internal class GroundSectionsValidator
+internal sealed class GroundSectionsValidator
 {
   private readonly GroundSectionMapping groundSectionMapping = new();
 

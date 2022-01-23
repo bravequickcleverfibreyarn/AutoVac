@@ -2,7 +2,7 @@
 
 namespace AutoVac.VacDynamics.Execution;
 
-internal class VacState
+internal sealed class VacState
 {
   private readonly HashSet<Position> visited;
   private readonly HashSet<Position> cleaned;
