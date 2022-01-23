@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Autovac.Console": {
+      "commandName": "Project",
+      "commandLineArgs": "test2.json res2.json"
+    }
+  }
+}
