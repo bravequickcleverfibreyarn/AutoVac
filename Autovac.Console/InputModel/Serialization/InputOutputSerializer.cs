@@ -33,7 +33,7 @@ internal static class InputOutputSerializer
     JsonSerializerOptions options = new ()
     {
       IncludeFields = true,
-      //WriteIndented = true, // produces highly intented and structured output
+      WriteIndented = true, // produces highly intented and structured output
       Converters = { new FacingConverter() }
     };
 
