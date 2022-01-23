@@ -13,7 +13,7 @@ internal static class InputOutputSerializer
   public static RawExecutionSettings? Deserialize(string input)
   {
     JsonSerializerOptions options = new ()
-    {
+    {      
       PropertyNameCaseInsensitive = true,
       IncludeFields = true
     };
@@ -32,6 +32,7 @@ internal static class InputOutputSerializer
   {
     JsonSerializerOptions options = new ()
     {
+      PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
       IncludeFields = true,
       WriteIndented = true, // produces highly intented and structured output
       Converters = { new FacingConverter() }

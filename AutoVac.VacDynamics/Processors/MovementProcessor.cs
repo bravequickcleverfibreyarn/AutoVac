@@ -65,10 +65,10 @@ internal sealed class MovementProcessor
 
   private GroundSection NextPosition(int columnIndex, int rowIndex)
   {
-    if(rowIndex < groundPlan.Count)
+    if(rowIndex < groundPlan.Count && rowIndex > -1)
     {
       GroundPlanRow row = groundPlan[rowIndex];
-      if(columnIndex < row.Count)
+      if(columnIndex < row.Count && columnIndex > -1)
         return row[columnIndex];
     }
 
