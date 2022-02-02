@@ -2,7 +2,7 @@
 
 internal static class IReadOnlyCollectionExtensions
 {
-  public static T[] ToOrdererArray<T>(this IReadOnlyCollection<T> collection, IComparer<T> comparer)
+  public static T[] ToOrderedArray<T>(this IReadOnlyCollection<T> collection, IComparer<T> comparer)
   where T : IComparable<T>
   {
     int count = collection.Count;

@@ -1,15 +1,16 @@
 ﻿using AutoVac.Clientship.Spatial;
 
+using System.Diagnostics;
+
 namespace AutoVac.VacDynamics.Execution;
 
-internal sealed class VacState
+[DebuggerDisplay("Facing = {Facing}|Battery = {BatteryLevel}|Position = {Position}")]
+internal struct VacState
 {
   private readonly HashSet<Position> visited;
   private readonly HashSet<Position> cleaned;
 
-  private CardinalDirection facing;
   private Position position;
-  private ushort batteryLevel;
 
   public VacState
   (
@@ -24,10 +25,11 @@ internal sealed class VacState
 
     (Position position, CardinalDirection facing) = orientedPosition;
 
-    this.facing = facing;
-    this.batteryLevel = batteryLevel;
+    Facing = facing;
+    BatteryLevel = batteryLevel;
 
-    Position = position;
+    this.position = position;
+    _ = visited.Add(position);
   }
 
   public Position Position
@@ -39,8 +41,8 @@ internal sealed class VacState
       position = value;
     }
   }
-  public ref CardinalDirection Facing => ref facing;
-  public ref ushort BatteryLevel => ref batteryLevel;
+  public CardinalDirection Facing { get; set; }
+  public ushort BatteryLevel { get; set; }
 
   public void AddCleaned(Position position) => cleaned.Add(position);
 

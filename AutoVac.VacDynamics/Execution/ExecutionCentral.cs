@@ -39,7 +39,7 @@ public sealed partial class ExecutionCentral
 
     try
     {
-      ExecuteCommands(instructions, state);
+      ExecuteCommands(instructions, ref state);
     }
     catch(BatteryExhaustionException) { }
     catch(AutoVacStuckException) { }
@@ -48,51 +48,61 @@ public sealed partial class ExecutionCentral
 
     return new ExecutionResult
     (
-      Visited: new VirtualTrajectory(state.Visited.ToOrdererArray(positionComparer)),
-      Cleaned: new VirtualTrajectory(state.Cleaned.ToOrdererArray(positionComparer)),
+      Visited: new VirtualTrajectory(state.Visited.ToOrderedArray(positionComparer)),
+      Cleaned: new VirtualTrajectory(state.Cleaned.ToOrderedArray(positionComparer)),
       Final: new OrientedPosition(state.Position, state.Facing),
       Battery: state.BatteryLevel
     );
   }
 
-  private void ExecuteCommands(InstructionSequence instructions, VacState vacState)
+  private void ExecuteCommands(InstructionSequence instructions, ref VacState vacState)
   {
-    ref ushort batteryLevel           = ref vacState.BatteryLevel;
-    ref CardinalDirection orientation = ref vacState.Facing;
-
     int count = instructions.Count;
     for(int i = 0;i < count;++i)
     {
       InstructionKind instruction = instructions[i];
-
       DiagnosticLogger.LogInstruction(instruction);
 
-      if(!BatteryProcessor.AdjustBatteryLevel(instruction, ref batteryLevel))
-        throw new BatteryExhaustionException();
-
-      if(OrientationProcessor.Orientate(ref orientation, instruction))
-        continue;
-
-      Position position = vacState.Position;
-      if(instruction is InstructionKind.Clean)
-      {
-        vacState.AddCleaned(position); // imagine clean processor here
-        continue;
-      }
-
-      GroundSection nextSection = TryMoveToNextSection(orientation, instruction, ref position);
-
-      if(nextSection is not GroundSection.Space) // obstacle
-        TryToBackOff(ref batteryLevel, ref orientation, ref position);
-
-      vacState.Position = position; // Moved in either way. Continue with instruction sequence.
+      if(ExecuteCommand(ref vacState, instruction) is false)
+        TryToBackOff(ref vacState);
     }
   }
 
-  private void TryToBackOff(ref ushort batteryLevel, ref CardinalDirection orientation, ref Position position)
+  private bool? ExecuteCommand(ref VacState vacState, InstructionKind instruction)
+  {
+    ushort batteryLevel = vacState.BatteryLevel;
+    if(!BatteryProcessor.AdjustBatteryLevel(instruction, ref batteryLevel))
+      throw new BatteryExhaustionException();
+    vacState.BatteryLevel = batteryLevel;
+
+    CardinalDirection orientation = vacState.Facing;
+    if(OrientationProcessor.Orientate(ref orientation, instruction))
+    {
+      vacState.Facing = orientation;
+      return null;
+    }
+
+    Position position = vacState.Position;
+    if(instruction is InstructionKind.Clean)
+    {
+      vacState.AddCleaned(position); // imagine clean processor here
+      return null;
+    }
+
+    GroundSection nextSection = TryMoveToNextSection(orientation, instruction, ref position);
+    if(nextSection is GroundSection.Space)
+    {
+      vacState.Position = position;
+      return true;
+    }
+
+    return false;
+  }
+
+  private void TryToBackOff(ref VacState vacState)
   {
     ReadOnlyCollection<InstructionSequence> backOffStrategy = BackOffStrategy.Instructions;
-    
+
     int strategyCount = backOffStrategy.Count;
     for(int strategyIndex = 0;strategyIndex < strategyCount;++strategyIndex)
     {
@@ -105,22 +115,14 @@ public sealed partial class ExecutionCentral
       for(int instructionIndex = 0;instructionIndex < instructionCount;++instructionIndex)
       {
         InstructionKind instruction = currentAttempt[instructionIndex];
-
         DiagnosticLogger.LogBackOffInstruction(instruction);
 
-        if(!BatteryProcessor.AdjustBatteryLevel(instruction, ref batteryLevel))
-          throw new BatteryExhaustionException();
+        bool? result = ExecuteCommand(ref vacState, instruction);
+        if(result is false)
+          break; // obstacle was hit
 
-        if(OrientationProcessor.Orientate(ref orientation, instruction))
-          continue;
-
-        if(TryMoveToNextSection(orientation, instruction, ref position) == GroundSection.Space)
-        {
+        if(result is true)
           attemptSuccessful = true;
-          continue;
-        }
-
-        break; // obstacle was hit
       }
 
       if(attemptSuccessful)
